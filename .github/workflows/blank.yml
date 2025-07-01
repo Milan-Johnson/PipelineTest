@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+ 
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Checkout code (main branch)
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # To allow switching branches later
+
+    - name: Checkout config files from config branch
+      run: |
+        git fetch origin config
+        git checkout origin/config -- path/to/config-files/
+      # Replace path/to/config-files with the directory in config branch
+
+    - name: List config files
+      run: ls -la path/to/config-files/
+
+    # Placeholder for build or deploy logic
+    - name: Run your app logic
+      run: echo "Run tests, build, or deploy"
+
+    # Later stage: Fetch from AWS SSM
+    - name: Fetch secrets from AWS SSM (example)
+      env:
+        AWS_REGION: us-east-1
+      run: |
+        PARAM=$(aws ssm get-parameter --name "/your/param/path" --with-decryption --query "Parameter.Value" --output text)
+        echo "Param: $PARAM"
+      # Requires AWS credentials set up (see below)
