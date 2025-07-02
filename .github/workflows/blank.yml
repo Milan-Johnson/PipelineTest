@@ -29,21 +29,21 @@ jobs:
     - name: Checkout config files from config branch
       run: |
         git fetch origin config
-        git checkout origin/config -- path/to/config-files/
+        git checkout origin/config -- beanstalk
       # Replace path/to/config-files with the directory in config branch
 
     - name: List config files
-      run: ls -la path/to/config-files/
+      run: ls -la beanstalk
 
     # Placeholder for build or deploy logic
     - name: Run your app logic
       run: echo "Run tests, build, or deploy"
 
     # Later stage: Fetch from AWS SSM
-    - name: Fetch secrets from AWS SSM (example)
-      env:
-        AWS_REGION: us-east-1
-      run: |
-        PARAM=$(aws ssm get-parameter --name "/your/param/path" --with-decryption --query "Parameter.Value" --output text)
-        echo "Param: $PARAM"
+    # - name: Fetch secrets from AWS SSM (example)
+    #   env:
+    #     AWS_REGION: us-east-1
+    #   run: |
+    #     PARAM=$(aws ssm get-parameter --name "/your/param/path" --with-decryption --query "Parameter.Value" --output text)
+    #     echo "Param: $PARAM"
       # Requires AWS credentials set up (see below)
